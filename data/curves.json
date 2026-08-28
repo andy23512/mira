@@ -1,0 +1,696 @@
+{
+	"generatedAt": "2026-08-28T07:30:54.183Z",
+	"source": "data/raw/Processed Data.csv",
+	"model": "wpm = a * days^b, fitted per quantile by minimising pinball loss on log(wpm)",
+	"note": "One record = one observation; the spreadsheet holds no user identity, so these describe the distribution of records, not of people.",
+	"quantiles": [
+		0.1,
+		0.25,
+		0.5,
+		0.75,
+		0.9
+	],
+	"minPoints": 50,
+	"maxStartDay": 14,
+	"series": [
+		{
+			"name": "CC1",
+			"n": 1619,
+			"sufficient": true,
+			"anchored": true,
+			"usable": true,
+			"daysRange": [
+				1,
+				1078
+			],
+			"denseTo": 358,
+			"wpmRange": [
+				2,
+				268
+			],
+			"fits": [
+				{
+					"tau": 0.1,
+					"a": 4.415752,
+					"b": 0.442303,
+					"pinballLoss": 0.094954
+				},
+				{
+					"tau": 0.25,
+					"a": 6.054556,
+					"b": 0.442275,
+					"pinballLoss": 0.156187
+				},
+				{
+					"tau": 0.5,
+					"a": 9.323096,
+					"b": 0.413234,
+					"pinballLoss": 0.183009
+				},
+				{
+					"tau": 0.75,
+					"a": 12.047745,
+					"b": 0.407382,
+					"pinballLoss": 0.138024
+				},
+				{
+					"tau": 0.9,
+					"a": 16.931554,
+					"b": 0.390418,
+					"pinballLoss": 0.079783
+				}
+			],
+			"leastSquares": {
+				"a": 9.061841,
+				"b": 0.406221
+			},
+			"crossings": []
+		},
+		{
+			"name": "CC2",
+			"n": 683,
+			"sufficient": true,
+			"anchored": true,
+			"usable": true,
+			"daysRange": [
+				1,
+				547
+			],
+			"denseTo": 244,
+			"wpmRange": [
+				3,
+				307
+			],
+			"fits": [
+				{
+					"tau": 0.1,
+					"a": 8,
+					"b": 0.327269,
+					"pinballLoss": 0.079124
+				},
+				{
+					"tau": 0.25,
+					"a": 9.340366,
+					"b": 0.372098,
+					"pinballLoss": 0.127477
+				},
+				{
+					"tau": 0.5,
+					"a": 12.698714,
+					"b": 0.33339,
+					"pinballLoss": 0.154878
+				},
+				{
+					"tau": 0.75,
+					"a": 17,
+					"b": 0.306304,
+					"pinballLoss": 0.138162
+				},
+				{
+					"tau": 0.9,
+					"a": 18.623921,
+					"b": 0.417914,
+					"pinballLoss": 0.090499
+				}
+			],
+			"leastSquares": {
+				"a": 12.433664,
+				"b": 0.349679
+			},
+			"crossings": []
+		},
+		{
+			"name": "M4G",
+			"n": 288,
+			"sufficient": true,
+			"anchored": true,
+			"usable": true,
+			"daysRange": [
+				1,
+				407
+			],
+			"denseTo": 307,
+			"wpmRange": [
+				3,
+				261
+			],
+			"fits": [
+				{
+					"tau": 0.1,
+					"a": 5.557236,
+					"b": 0.350887,
+					"pinballLoss": 0.097492
+				},
+				{
+					"tau": 0.25,
+					"a": 8,
+					"b": 0.357051,
+					"pinballLoss": 0.167835
+				},
+				{
+					"tau": 0.5,
+					"a": 10.650603,
+					"b": 0.372189,
+					"pinballLoss": 0.190035
+				},
+				{
+					"tau": 0.75,
+					"a": 12.732472,
+					"b": 0.411043,
+					"pinballLoss": 0.161334
+				},
+				{
+					"tau": 0.9,
+					"a": 15.189086,
+					"b": 0.457545,
+					"pinballLoss": 0.08515
+				}
+			],
+			"leastSquares": {
+				"a": 9.894725,
+				"b": 0.383986
+			},
+			"crossings": []
+		},
+		{
+			"name": "CCL",
+			"n": 17,
+			"sufficient": false,
+			"anchored": true,
+			"usable": false,
+			"daysRange": [
+				1,
+				101
+			],
+			"denseTo": 101,
+			"wpmRange": [
+				30,
+				94
+			],
+			"fits": [
+				{
+					"tau": 0.1,
+					"a": 28.240332,
+					"b": 0.244277,
+					"pinballLoss": 0.037682
+				},
+				{
+					"tau": 0.25,
+					"a": 53.030521,
+					"b": 0.104588,
+					"pinballLoss": 0.067607
+				},
+				{
+					"tau": 0.5,
+					"a": 59.665517,
+					"b": 0.078454,
+					"pinballLoss": 0.061271
+				},
+				{
+					"tau": 0.75,
+					"a": 63,
+					"b": 0.077284,
+					"pinballLoss": 0.040007
+				},
+				{
+					"tau": 0.9,
+					"a": 63,
+					"b": 0.100789,
+					"pinballLoss": 0.020504
+				}
+			],
+			"leastSquares": {
+				"a": 49.004492,
+				"b": 0.138047
+			},
+			"crossings": [
+				{
+					"between": [
+						0.1,
+						0.25
+					],
+					"atDays": 91
+				},
+				{
+					"between": [
+						0.1,
+						0.25
+					],
+					"atDays": 92
+				},
+				{
+					"between": [
+						0.1,
+						0.25
+					],
+					"atDays": 93
+				},
+				{
+					"between": [
+						0.1,
+						0.25
+					],
+					"atDays": 94
+				},
+				{
+					"between": [
+						0.1,
+						0.25
+					],
+					"atDays": 95
+				},
+				{
+					"between": [
+						0.1,
+						0.25
+					],
+					"atDays": 96
+				},
+				{
+					"between": [
+						0.1,
+						0.25
+					],
+					"atDays": 98
+				},
+				{
+					"between": [
+						0.1,
+						0.25
+					],
+					"atDays": 99
+				},
+				{
+					"between": [
+						0.1,
+						0.25
+					],
+					"atDays": 100
+				},
+				{
+					"between": [
+						0.1,
+						0.25
+					],
+					"atDays": 101
+				}
+			]
+		},
+		{
+			"name": "CCX",
+			"n": 7,
+			"sufficient": false,
+			"anchored": true,
+			"usable": false,
+			"daysRange": [
+				6,
+				31
+			],
+			"denseTo": 31,
+			"wpmRange": [
+				22,
+				58
+			],
+			"fits": [
+				{
+					"tau": 0.1,
+					"a": 7.639819,
+					"b": 0.590296,
+					"pinballLoss": 0.021098
+				},
+				{
+					"tau": 0.25,
+					"a": 7.639819,
+					"b": 0.590296,
+					"pinballLoss": 0.052745
+				},
+				{
+					"tau": 0.5,
+					"a": 9.644811,
+					"b": 0.529409,
+					"pinballLoss": 0.086358
+				},
+				{
+					"tau": 0.75,
+					"a": 55.928603,
+					"b": 0.01059,
+					"pinballLoss": 0.081888
+				},
+				{
+					"tau": 0.9,
+					"a": 55.928603,
+					"b": 0.01059,
+					"pinballLoss": 0.032755
+				}
+			],
+			"leastSquares": {
+				"a": 17.137178,
+				"b": 0.352015
+			},
+			"crossings": [
+				{
+					"between": [
+						0.5,
+						0.75
+					],
+					"atDays": 30
+				},
+				{
+					"between": [
+						0.5,
+						0.75
+					],
+					"atDays": 30
+				},
+				{
+					"between": [
+						0.5,
+						0.75
+					],
+					"atDays": 30
+				},
+				{
+					"between": [
+						0.5,
+						0.75
+					],
+					"atDays": 30
+				},
+				{
+					"between": [
+						0.5,
+						0.75
+					],
+					"atDays": 30
+				},
+				{
+					"between": [
+						0.5,
+						0.75
+					],
+					"atDays": 30
+				},
+				{
+					"between": [
+						0.5,
+						0.75
+					],
+					"atDays": 30
+				},
+				{
+					"between": [
+						0.5,
+						0.75
+					],
+					"atDays": 30
+				},
+				{
+					"between": [
+						0.5,
+						0.75
+					],
+					"atDays": 31
+				},
+				{
+					"between": [
+						0.5,
+						0.75
+					],
+					"atDays": 31
+				},
+				{
+					"between": [
+						0.5,
+						0.75
+					],
+					"atDays": 31
+				},
+				{
+					"between": [
+						0.5,
+						0.75
+					],
+					"atDays": 31
+				}
+			]
+		},
+		{
+			"name": "CC2 (Transfer)",
+			"n": 36,
+			"sufficient": false,
+			"anchored": false,
+			"usable": false,
+			"daysRange": [
+				15,
+				1068
+			],
+			"denseTo": 838,
+			"wpmRange": [
+				27,
+				158
+			],
+			"fits": [
+				{
+					"tau": 0.1,
+					"a": 15.388815,
+					"b": 0.211267,
+					"pinballLoss": 0.033226
+				},
+				{
+					"tau": 0.25,
+					"a": 12.173256,
+					"b": 0.293931,
+					"pinballLoss": 0.045834
+				},
+				{
+					"tau": 0.5,
+					"a": 12.525434,
+					"b": 0.296499,
+					"pinballLoss": 0.054612
+				},
+				{
+					"tau": 0.75,
+					"a": 9.987762,
+					"b": 0.375986,
+					"pinballLoss": 0.046028
+				},
+				{
+					"tau": 0.9,
+					"a": 8.39759,
+					"b": 0.442751,
+					"pinballLoss": 0.022308
+				}
+			],
+			"leastSquares": {
+				"a": 12.008955,
+				"b": 0.309446
+			},
+			"crossings": [
+				{
+					"between": [
+						0.1,
+						0.25
+					],
+					"atDays": 15
+				},
+				{
+					"between": [
+						0.1,
+						0.25
+					],
+					"atDays": 15
+				},
+				{
+					"between": [
+						0.1,
+						0.25
+					],
+					"atDays": 15
+				},
+				{
+					"between": [
+						0.1,
+						0.25
+					],
+					"atDays": 15
+				},
+				{
+					"between": [
+						0.1,
+						0.25
+					],
+					"atDays": 16
+				},
+				{
+					"between": [
+						0.1,
+						0.25
+					],
+					"atDays": 16
+				},
+				{
+					"between": [
+						0.1,
+						0.25
+					],
+					"atDays": 16
+				},
+				{
+					"between": [
+						0.1,
+						0.25
+					],
+					"atDays": 16
+				},
+				{
+					"between": [
+						0.1,
+						0.25
+					],
+					"atDays": 16
+				},
+				{
+					"between": [
+						0.1,
+						0.25
+					],
+					"atDays": 17
+				},
+				{
+					"between": [
+						0.1,
+						0.25
+					],
+					"atDays": 17
+				},
+				{
+					"between": [
+						0.1,
+						0.25
+					],
+					"atDays": 17
+				},
+				{
+					"between": [
+						0.5,
+						0.75
+					],
+					"atDays": 17
+				},
+				{
+					"between": [
+						0.5,
+						0.75
+					],
+					"atDays": 17
+				}
+			]
+		},
+		{
+			"name": "M4G (Transfer)",
+			"n": 77,
+			"sufficient": true,
+			"anchored": false,
+			"usable": false,
+			"daysRange": [
+				321,
+				1016
+			],
+			"denseTo": 1012,
+			"wpmRange": [
+				42,
+				260
+			],
+			"fits": [
+				{
+					"tau": 0.1,
+					"a": 0.125788,
+					"b": 0.984032,
+					"pinballLoss": 0.064048
+				},
+				{
+					"tau": 0.25,
+					"a": 1.718001,
+					"b": 0.616769,
+					"pinballLoss": 0.116184
+				},
+				{
+					"tau": 0.5,
+					"a": 11.381884,
+					"b": 0.378259,
+					"pinballLoss": 0.138456
+				},
+				{
+					"tau": 0.75,
+					"a": 8.265708,
+					"b": 0.454619,
+					"pinballLoss": 0.095438
+				},
+				{
+					"tau": 0.9,
+					"a": 5.333399,
+					"b": 0.535713,
+					"pinballLoss": 0.047267
+				}
+			],
+			"leastSquares": {
+				"a": 5.553922,
+				"b": 0.475371
+			},
+			"crossings": []
+		},
+		{
+			"name": "CC1 & CC2 & M4G",
+			"n": 2703,
+			"sufficient": true,
+			"anchored": true,
+			"usable": true,
+			"daysRange": [
+				1,
+				1078
+			],
+			"denseTo": 404,
+			"wpmRange": [
+				2,
+				307
+			],
+			"fits": [
+				{
+					"tau": 0.1,
+					"a": 5.075754,
+					"b": 0.414128,
+					"pinballLoss": 0.093206
+				},
+				{
+					"tau": 0.25,
+					"a": 7.772504,
+					"b": 0.391259,
+					"pinballLoss": 0.151641
+				},
+				{
+					"tau": 0.5,
+					"a": 10.573242,
+					"b": 0.377078,
+					"pinballLoss": 0.176102
+				},
+				{
+					"tau": 0.75,
+					"a": 13.285034,
+					"b": 0.381773,
+					"pinballLoss": 0.140477
+				},
+				{
+					"tau": 0.9,
+					"a": 17.743862,
+					"b": 0.383355,
+					"pinballLoss": 0.08323
+				}
+			],
+			"leastSquares": {
+				"a": 10.025004,
+				"b": 0.386323
+			},
+			"crossings": []
+		}
+	]
+}

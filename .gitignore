@@ -1,0 +1,12 @@
+node_modules
+dist
+.vite
+
+.DS_Store
+*.tsbuildinfo
+
+# Vite reads these; they hold machine-local overrides and secrets.
+*.local
+.env
+.env.*
+!.env.example

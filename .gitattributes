@@ -1,0 +1,3 @@
+# Google serves the published CSV with CRLF. Storing it verbatim keeps a refetch
+# from showing up as a whole-file diff; the parsers already ignore \r.
+data/raw/*.csv -text

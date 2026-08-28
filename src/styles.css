@@ -1,0 +1,363 @@
+/*
+ * Colour tokens come from the validated palette: a single blue ramp for the
+ * percentile bands (they are ordered magnitude, so one hue light->dark) and one
+ * categorical orange for "your" records (a different entity, so a different hue).
+ *
+ * Dark is a selected set of steps from the same ramps, not a flip: on a dark
+ * surface the *dark* end of the ramp is the recessive one, so the band order
+ * reverses.
+ *
+ * Verified with the dataviz validator:
+ *   bands  light #86b6ef,#3987e5,#184f95 --ordinal   -> all pass
+ *   bands  dark  #86b6ef,#2a78d6,#184f95 --ordinal   -> all pass
+ *   series light #2a78d6,#eb6834                     -> all pass
+ *   series dark  #3987e5,#d95926                     -> all pass
+ */
+
+:root {
+	color-scheme: light;
+
+	--surface-1: #fcfcfb;
+	--surface-2: #ffffff;
+	--border: #e4e4e0;
+	--grid: #ecece8;
+
+	--text-primary: #0b0b0b;
+	--text-secondary: #52514e;
+	--text-muted: #79776f;
+
+	/* Percentile bands: p10-p90 is the outer, recessive one. */
+	--band-outer: #86b6ef;
+	--band-inner: #3987e5;
+	--band-median: #184f95;
+	--band-swatch: #2a78d6;
+
+	/* Your own records. */
+	--accent: #eb6834;
+
+	--font-sans:
+		system-ui, -apple-system, 'Segoe UI', 'Noto Sans', 'Helvetica Neue', Arial,
+		'PingFang TC', 'Noto Sans TC', sans-serif;
+	--radius: 10px;
+}
+
+@media (prefers-color-scheme: dark) {
+	:root:where(:not([data-theme='light'])) {
+		color-scheme: dark;
+
+		--surface-1: #1a1a19;
+		--surface-2: #232321;
+		--border: #3a3a36;
+		--grid: #2e2e2b;
+
+		--text-primary: #ffffff;
+		--text-secondary: #c3c2b7;
+		--text-muted: #96958c;
+
+		--band-outer: #184f95;
+		--band-inner: #2a78d6;
+		--band-median: #86b6ef;
+		--band-swatch: #3987e5;
+
+		--accent: #d95926;
+	}
+}
+
+:root[data-theme='dark'] {
+	color-scheme: dark;
+
+	--surface-1: #1a1a19;
+	--surface-2: #232321;
+	--border: #3a3a36;
+	--grid: #2e2e2b;
+
+	--text-primary: #ffffff;
+	--text-secondary: #c3c2b7;
+	--text-muted: #96958c;
+
+	--band-outer: #184f95;
+	--band-inner: #2a78d6;
+	--band-median: #86b6ef;
+	--band-swatch: #3987e5;
+
+	--accent: #d95926;
+}
+
+* {
+	box-sizing: border-box;
+}
+
+body {
+	margin: 0;
+	background: var(--surface-1);
+	color: var(--text-primary);
+	font-family: var(--font-sans);
+	font-size: 15px;
+	line-height: 1.55;
+	-webkit-font-smoothing: antialiased;
+}
+
+h1,
+h2,
+h3 {
+	font-weight: 600;
+	line-height: 1.25;
+	margin: 0;
+}
+
+h1 {
+	font-size: 1.6rem;
+}
+
+h2 {
+	font-size: 1.05rem;
+}
+
+h3 {
+	font-size: 0.9rem;
+	color: var(--text-secondary);
+}
+
+a {
+	color: inherit;
+}
+
+.page {
+	max-width: 980px;
+	margin: 0 auto;
+	padding: 32px 20px 72px;
+	display: flex;
+	flex-direction: column;
+	gap: 20px;
+}
+
+.masthead p {
+	margin: 6px 0 0;
+	color: var(--text-secondary);
+	max-width: 62ch;
+}
+
+/* One filter row above everything it scopes. */
+.filters {
+	display: flex;
+	flex-wrap: wrap;
+	align-items: flex-end;
+	gap: 16px;
+	padding: 14px 16px;
+	background: var(--surface-2);
+	border: 1px solid var(--border);
+	border-radius: var(--radius);
+}
+
+.field {
+	display: flex;
+	flex-direction: column;
+	gap: 4px;
+	align-self: flex-start;
+}
+
+.field > span {
+	font-size: 0.78rem;
+	color: var(--text-secondary);
+}
+
+label,
+button,
+input,
+select {
+	font: inherit;
+	color: inherit;
+}
+
+input,
+select {
+	background: var(--surface-1);
+	border: 1px solid var(--border);
+	border-radius: 6px;
+	padding: 6px 8px;
+	min-height: 34px;
+}
+
+input:focus-visible,
+select:focus-visible,
+button:focus-visible {
+	outline: 2px solid var(--band-swatch);
+	outline-offset: 2px;
+}
+
+button {
+	background: var(--surface-1);
+	border: 1px solid var(--border);
+	border-radius: 6px;
+	padding: 6px 12px;
+	min-height: 34px;
+	cursor: pointer;
+}
+
+button:hover {
+	border-color: var(--text-muted);
+}
+
+button.link {
+	border: none;
+	background: none;
+	padding: 4px 6px;
+	color: var(--text-secondary);
+	text-decoration: underline;
+}
+
+.card {
+	background: var(--surface-2);
+	border: 1px solid var(--border);
+	border-radius: var(--radius);
+	padding: 18px 18px 22px;
+	display: flex;
+	flex-direction: column;
+	gap: 14px;
+}
+
+/* Sized to include the x-axis band, so no nested scrollbar appears. */
+.plot {
+	width: 100%;
+	overflow-x: auto;
+}
+
+.plot figure,
+.plot svg {
+	max-width: 100%;
+	height: auto;
+}
+
+.legend {
+	display: flex;
+	flex-wrap: wrap;
+	gap: 6px 18px;
+	font-size: 0.83rem;
+	color: var(--text-secondary);
+}
+
+.legend-item {
+	display: inline-flex;
+	align-items: center;
+	gap: 7px;
+}
+
+.swatch {
+	display: inline-block;
+	width: 14px;
+	height: 14px;
+	border-radius: 3px;
+	flex: none;
+}
+
+.swatch.line {
+	height: 3px;
+	border-radius: 2px;
+}
+
+.note {
+	margin: 0;
+	font-size: 0.82rem;
+	color: var(--text-muted);
+	max-width: 74ch;
+}
+
+.readout {
+	display: flex;
+	flex-wrap: wrap;
+	gap: 28px;
+	align-items: baseline;
+}
+
+.stat {
+	display: flex;
+	flex-direction: column;
+	gap: 2px;
+}
+
+.stat-value {
+	font-size: 2.2rem;
+	font-weight: 600;
+	line-height: 1.1;
+	font-variant-numeric: proportional-nums;
+}
+
+.stat-label {
+	font-size: 0.8rem;
+	color: var(--text-secondary);
+}
+
+.records {
+	display: grid;
+	grid-template-columns: auto auto auto;
+	gap: 8px;
+	align-items: center;
+	justify-content: start;
+}
+
+.records-head {
+	font-size: 0.78rem;
+	color: var(--text-secondary);
+}
+
+table {
+	border-collapse: collapse;
+	width: 100%;
+	font-variant-numeric: tabular-nums;
+	font-size: 0.88rem;
+}
+
+caption {
+	text-align: left;
+	color: var(--text-secondary);
+	font-size: 0.83rem;
+	padding-bottom: 8px;
+}
+
+th,
+td {
+	text-align: right;
+	padding: 6px 10px;
+	border-bottom: 1px solid var(--grid);
+}
+
+th:first-child,
+td:first-child {
+	text-align: left;
+}
+
+thead th {
+	color: var(--text-secondary);
+	font-weight: 500;
+}
+
+tbody tr:last-child td {
+	border-bottom: none;
+}
+
+.you-row td {
+	color: var(--accent);
+	font-weight: 600;
+}
+
+details > summary {
+	cursor: pointer;
+	color: var(--text-secondary);
+	font-size: 0.88rem;
+}
+
+footer {
+	color: var(--text-muted);
+	font-size: 0.8rem;
+	border-top: 1px solid var(--border);
+	padding-top: 16px;
+}
+
+.visually-hidden {
+	position: absolute;
+	width: 1px;
+	height: 1px;
+	overflow: hidden;
+	clip-path: inset(50%);
+	white-space: nowrap;
+}
