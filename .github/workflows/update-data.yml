@@ -1,0 +1,55 @@
+name: Refresh curve data
+
+# The app reads a committed data/curves.json rather than the spreadsheet, so a
+# weekly job refits it from the published sheet. Changes arrive as a pull request,
+# which gives a reviewable diff of how the curves moved before anything ships.
+on:
+  schedule:
+    - cron: '0 6 * * 1'
+  workflow_dispatch:
+
+permissions:
+  contents: write
+  pull-requests: write
+
+jobs:
+  update:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 24
+          cache: npm
+      - run: npm ci
+      - name: Refetch the sheet and refit the curves
+        run: npm run build:data
+      - name: Ignore a refresh that only moved the timestamps
+        # Every run rewrites generatedAt and fetchedAt, which would open an empty
+        # pull request each week even when the spreadsheet has not changed.
+        run: |
+          changed=$(git diff -U0 -- data | grep -E '^[+-][^+-]' | grep -Ev '"(generatedAt|fetchedAt)"' || true)
+          if [ -z "$changed" ]; then
+            git checkout -- data
+            echo "Nothing changed but the timestamps."
+          else
+            echo "$changed"
+          fi
+      - name: Check that the app still builds against the new data
+        run: npm run build
+      - name: Open a pull request if anything changed
+        uses: peter-evans/create-pull-request@v6
+        with:
+          branch: chore/refresh-curve-data
+          delete-branch: true
+          title: 'Refresh learning-curve data'
+          commit-message: 'Refresh learning-curve data'
+          body: |
+            Automated refetch of `Processed Data` from the published spreadsheet,
+            refitted by `scripts/build-curves.mjs`.
+
+            Worth a look in the diff: whether `n` grew as expected, whether any
+            series crossed the 50-record threshold, and whether `crossings` is
+            still empty.
+          add-paths: data
