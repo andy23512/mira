@@ -150,7 +150,10 @@ export function App() {
 				<p className="note">
 					Curves generated {new Date(curves.generatedAt).toISOString().slice(0, 10)} from
 					Tangent's Unofficial CharaChorder and Forge Learning Progress Statistic. Unofficial —
-					not affiliated with CharaChorder.
+					not affiliated with CharaChorder.{' '}
+					<a href="https://github.com/andy23512/mira" target="_blank" rel="noopener">
+						Source on GitHub
+					</a>.
 				</p>
 			</footer>
 		</div>
