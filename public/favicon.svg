@@ -1,0 +1,15 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 32 32">
+  <title>Mira</title>
+  <!-- The chart itself, cut down to what survives 16px: a percentile band rising
+       on a log-log plot, with one record of your own sitting inside it. Colours are
+       the app's own dark-mode tokens, so the icon and the chart agree. The band is
+       drawn past the frame and clipped, so it bleeds to the edges instead of
+       leaving the corners empty. -->
+  <clipPath id="tile"><rect width="32" height="32" rx="7"/></clipPath>
+  <g clip-path="url(#tile)">
+    <rect width="32" height="32" fill="#1a1a19"/>
+    <path fill="#2a78d6" d="M-4 25 L36 -7 L36 15 L-4 35 Z"/>
+    <path fill="#86b6ef" d="M-4 28 L36 -0.5 L36 8.5 L-4 32 Z"/>
+  </g>
+  <circle cx="20" cy="14.4" r="4" fill="#d95926" stroke="#1a1a19" stroke-width="2"/>
+</svg>
