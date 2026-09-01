@@ -158,7 +158,7 @@ export function CurveChart({ series, points }: Props) {
 					fill: tokens.textSecondary,
 					fontSize: 11,
 				}),
-				Plot.text(['Days since the device arrived →'], {
+				Plot.text(['Days since the device arrived (log scale) →'], {
 					frameAnchor: 'bottom',
 					dy: 36,
 					fill: tokens.textSecondary,
