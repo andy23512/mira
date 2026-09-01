@@ -12,6 +12,9 @@
  *   bands  dark  #86b6ef,#2a78d6,#184f95 --ordinal   -> all pass
  *   series light #2a78d6,#eb6834                     -> all pass
  *   series dark  #3987e5,#d95926                     -> all pass
+ *
+ * Speed-milestone lines take the next five slots of the same 8-hue
+ * categorical palette (blue and orange above are slots 1-2), in order.
  */
 
 :root {
@@ -34,6 +37,13 @@
 
 	/* Your own records. */
 	--accent: #eb6834;
+
+	/* Speed-achievement reference lines, low to high wpm. */
+	--speed-40: #1baf7a;
+	--speed-60: #eda100;
+	--speed-100: #e87ba4;
+	--speed-150: #008300;
+	--speed-250: #4a3aa7;
 
 	--font-sans:
 		system-ui, -apple-system, 'Segoe UI', 'Noto Sans', 'Helvetica Neue', Arial,
@@ -60,6 +70,12 @@
 		--band-swatch: #3987e5;
 
 		--accent: #d95926;
+
+		--speed-40: #199e70;
+		--speed-60: #c98500;
+		--speed-100: #d55181;
+		--speed-150: #008300;
+		--speed-250: #9085e9;
 	}
 }
 
@@ -81,6 +97,12 @@
 	--band-swatch: #3987e5;
 
 	--accent: #d95926;
+
+	--speed-40: #199e70;
+	--speed-60: #c98500;
+	--speed-100: #d55181;
+	--speed-150: #008300;
+	--speed-250: #9085e9;
 }
 
 * {

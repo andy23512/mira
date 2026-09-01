@@ -1,4 +1,5 @@
 import { useEffect, useState } from 'react';
+import { SPEED_MILESTONES } from './speedMilestones.ts';
 
 /** The colour tokens a chart needs, read from CSS so dark mode stays in one place. */
 export interface ChartTokens {
@@ -10,6 +11,8 @@ export interface ChartTokens {
 	grid: string;
 	textPrimary: string;
 	textSecondary: string;
+	/** One colour per SPEED_MILESTONES entry, keyed by its wpm. */
+	milestoneColors: Record<number, string>;
 }
 
 const read = (): ChartTokens => {
@@ -24,6 +27,9 @@ const read = (): ChartTokens => {
 		grid: token('--grid'),
 		textPrimary: token('--text-primary'),
 		textSecondary: token('--text-secondary'),
+		milestoneColors: Object.fromEntries(
+			SPEED_MILESTONES.map((milestone) => [milestone.wpm, token(`--speed-${milestone.wpm}`)]),
+		),
 	};
 };
 

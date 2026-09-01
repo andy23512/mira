@@ -5,6 +5,7 @@ import { RecordEditor } from './components/RecordEditor.tsx';
 import { curves, isWithinFit, placePoint, usableSeries } from './lib/curves.ts';
 import { rankLabel } from './lib/format.ts';
 import { loadRecords, saveRecords, toPoints } from './lib/records.ts';
+import { SPEED_MILESTONES } from './lib/speedMilestones.ts';
 
 /** The combined series is not simply the three device series added together. */
 const COMBINED = 'CC1 & CC2 & M4G';
@@ -109,6 +110,35 @@ export function App() {
 					records for this device by minimising pinball loss on log(wpm) — a quantile
 					regression, so the 90th-percentile curve really is the 90th percentile of records at
 					every day, not a shifted average.
+				</p>
+				<div className="legend">
+					{SPEED_MILESTONES.map((milestone) => (
+						<span className="legend-item" key={milestone.wpm}>
+							<span
+								className="swatch line"
+								style={{ background: `var(--speed-${milestone.wpm})` }}
+							/>
+							{milestone.wpm} wpm — {milestone.label}
+						</span>
+					))}
+				</div>
+				<p className="note">
+					The dashed lines mark notable typing speeds from{' '}
+					<a
+						href="https://andy23512.github.io/blog/tangent-s-unofficial-charachorder-and-forge-learning-progress-statistic/#Speed-Achievement-Stats"
+						target="_blank"
+						rel="noopener"
+					>
+						Tangent's Speed Achievement Stats
+					</a>
+					: {SPEED_MILESTONES.map((milestone, i) => (
+						<span key={milestone.wpm}>
+							{i > 0 && '; '}
+							{milestone.wpm} wpm is {milestone.description.charAt(0).toLowerCase()}
+							{milestone.description.slice(1).replace(/\.$/, '')}
+						</span>
+					))}
+					.
 				</p>
 			</div>
 

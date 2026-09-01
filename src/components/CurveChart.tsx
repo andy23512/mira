@@ -3,6 +3,7 @@ import { useEffect, useRef, useState } from 'react';
 import { isWithinFit, placePoint, sampleSeries, type Series } from '../lib/curves.ts';
 import { rankLabel } from '../lib/format.ts';
 import type { OwnPoint } from '../lib/records.ts';
+import { SPEED_MILESTONES } from '../lib/speedMilestones.ts';
 import { useChartTokens } from '../lib/tokens.ts';
 
 /** Ticks a reader thinks in: a first week, a first month, then years. */
@@ -85,6 +86,34 @@ export function CurveChart({ series, points }: Props) {
 			}
 			return lines.join('\n');
 		};
+
+		// Dashed to read as reference lines rather than more data, and kept to the
+		// left edge so they don't fight the p10/p50/p90 labels sitting on the right.
+		const milestoneMarks = SPEED_MILESTONES.filter(
+			(milestone) => milestone.wpm >= floor && milestone.wpm <= ceiling,
+		).flatMap((milestone) => {
+			const stroke = tokens.milestoneColors[milestone.wpm];
+			const at = [{ days: xMin, wpm: milestone.wpm }];
+			return [
+				Plot.ruleY([milestone.wpm], {
+					stroke,
+					strokeWidth: 1.5,
+					strokeDasharray: '4,3',
+					strokeOpacity: 0.9,
+				}),
+				Plot.text(at, {
+					x: 'days',
+					y: 'wpm',
+					text: () => `${milestone.wpm} · ${milestone.label}`,
+					dx: 6,
+					dy: -6,
+					textAnchor: 'start',
+					fill: stroke,
+					fontSize: 10,
+					fontWeight: 600,
+				}),
+			];
+		});
 
 		const label = (y: 'p10' | 'p50' | 'p90') =>
 			Plot.text([last], {
@@ -190,6 +219,7 @@ export function CurveChart({ series, points }: Props) {
 							}),
 						]
 					: []),
+				...milestoneMarks,
 				label('p90'),
 				label('p50'),
 				label('p10'),
@@ -218,7 +248,8 @@ export function CurveChart({ series, points }: Props) {
 		plot.setAttribute(
 			'aria-label',
 			`Percentile learning curves for ${series.name}: words per minute against days of practice, ` +
-				`from the 10th to the 90th percentile. The same values are in the table below.`,
+				`from the 10th to the 90th percentile. The same values are in the table below. ` +
+				`Dashed reference lines mark notable typing speeds, explained below the chart.`,
 		);
 		element.replaceChildren(plot);
 		return () => plot.remove();
