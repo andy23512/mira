@@ -5,13 +5,11 @@
 An unofficial explorer for the **percentile learning curves** of CharaChorder devices.
 
 The trend lines published alongside
-[Tangent's Unofficial CharaChorder and Forge Learning Progress Statistic][sheet]
+[Tangent's Unofficial CharaChorder and Forge Learning Progress Statistic](https://andy23512.github.io/blog/tangent-s-unofficial-charachorder-and-forge-learning-progress-statistic/)
 answer "how fast does a typical person get?". Mira answers the question next to it:
-*where do I sit among everyone else at the same point in my practice?* — by fitting a
+_where do I sit among everyone else at the same point in my practice?_ — by fitting a
 curve to the 10th, 25th, 50th, 75th and 90th percentile of shared records rather than
 to their average.
-
-[sheet]: https://docs.google.com/spreadsheets/d/1okhYnt4cz8Zzh2WKNzPs9drqaoudCeT7VN2O9UzTTFM/edit
 
 ## The model
 
@@ -35,8 +33,8 @@ and no local minima.
 ## What the curves do not say
 
 - **One record is one observation.** The spreadsheet carries no identity for anyone who
-  contributed, by design, so the curves describe the distribution of *records*, not of
-  *people*: someone who logs their speed daily weighs more than someone who logs it twice.
+  contributed, by design, so the curves describe the distribution of _records_, not of
+  _people_: someone who logs their speed daily weighs more than someone who logs it twice.
 - **The tail of every series is thin.** 95% of CC1's records fall on or before day 358,
   out of a fitted range that runs to day 1078. The chart marks where that happens.
 - **`CC1 & CC2 & M4G` is deliberately more than the three device series added together.**
@@ -66,7 +64,7 @@ node scripts/fetch-sheets.mjs --list   # what the spreadsheet publishes
 node scripts/fetch-sheets.mjs --all    # all of it, not just what Mira reads
 ```
 
-`fetch-sheets.mjs` reads the spreadsheet's *publish to web* mirror, so no credentials
+`fetch-sheets.mjs` reads the spreadsheet's _publish to web_ mirror, so no credentials
 are involved and there is no gid list to keep in sync — `--list` and `--all` pick up a
 newly published sheet on the next run.
 
