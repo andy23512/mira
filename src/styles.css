@@ -186,13 +186,15 @@ a {
 label,
 button,
 input,
-select {
+select,
+textarea {
 	font: inherit;
 	color: inherit;
 }
 
 input,
-select {
+select,
+textarea {
 	background: var(--surface-1);
 	border: 1px solid var(--border);
 	border-radius: 6px;
@@ -200,8 +202,14 @@ select {
 	min-height: 34px;
 }
 
+textarea {
+	font-family: ui-monospace, monospace;
+	resize: vertical;
+}
+
 input:focus-visible,
 select:focus-visible,
+textarea:focus-visible,
 button:focus-visible {
 	outline: 2px solid var(--band-swatch);
 	outline-offset: 2px;
@@ -282,6 +290,16 @@ button.link {
 	font-size: 0.82rem;
 	color: var(--text-muted);
 	max-width: 74ch;
+}
+
+.note.error {
+	color: var(--accent);
+}
+
+.record-actions {
+	display: flex;
+	flex-wrap: wrap;
+	gap: 8px;
 }
 
 .readout {

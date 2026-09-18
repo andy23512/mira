@@ -1,6 +1,7 @@
 import { useEffect, useMemo, useState } from 'react';
 import { CurveChart } from './components/CurveChart.tsx';
 import { CurveTable } from './components/CurveTable.tsx';
+import { Forecast } from './components/Forecast.tsx';
 import { RecordEditor } from './components/RecordEditor.tsx';
 import { curves, isWithinFit, placePoint, usableSeries } from './lib/curves.ts';
 import { rankLabel } from './lib/format.ts';
@@ -79,6 +80,7 @@ export function App() {
 							</span>
 						</div>
 					</div>
+					<Forecast series={series} latest={latest} placed={placed} />
 				</div>
 			)}
 

@@ -30,19 +30,75 @@ const STORAGE_KEY = 'mira.own-records.v1';
 
 export const emptyRecords = (): OwnRecords => ({ startDate: '', records: [newRecord()] });
 
+function isRawRecordShape(value: unknown): value is Pick<RawRecord, 'date' | 'wpm'> {
+	return (
+		typeof value === 'object' &&
+		value !== null &&
+		typeof (value as RawRecord).date === 'string' &&
+		typeof (value as RawRecord).wpm === 'string'
+	);
+}
+
+/**
+ * Parses a records export — from localStorage or a file the reader picked — into
+ * `OwnRecords`, or `null` if it is not one. Rows saved before ids existed, or read
+ * back from a file that never had them, are given one on the way in.
+ */
+export function parseRecords(raw: string): OwnRecords | null {
+	try {
+		const parsed = JSON.parse(raw) as unknown;
+		if (
+			typeof parsed !== 'object' ||
+			parsed === null ||
+			typeof (parsed as OwnRecords).startDate !== 'string' ||
+			!Array.isArray((parsed as OwnRecords).records) ||
+			!(parsed as OwnRecords).records.every(isRawRecordShape)
+		) {
+			return null;
+		}
+		const { startDate, records } = parsed as OwnRecords;
+		return { startDate, records: records.map((row) => ({ ...newRecord(), ...row })) };
+	} catch {
+		return null;
+	}
+}
+
 export function loadRecords(): OwnRecords {
 	try {
 		const stored = localStorage.getItem(STORAGE_KEY);
 		if (!stored) return emptyRecords();
-		const parsed = JSON.parse(stored) as OwnRecords;
-		if (typeof parsed?.startDate !== 'string' || !Array.isArray(parsed.records)) {
-			return emptyRecords();
-		}
-		// Rows saved before ids existed are given one on the way in.
-		return { ...parsed, records: parsed.records.map((row) => ({ ...newRecord(), ...row })) };
+		return parseRecords(stored) ?? emptyRecords();
 	} catch {
 		return emptyRecords();
 	}
+}
+
+const PASTED_DATE = /^\d{4}-\d{2}-\d{2}$/;
+
+/**
+ * Parses rows pasted from another tool — one `date,wpm` (or tab-separated) pair per
+ * line. A line is skipped, not guessed at, unless its date is already `YYYY-MM-DD`
+ * (what the date inputs produce) and its wpm is a positive number.
+ */
+export function parsePastedRows(text: string) {
+	const rows: Pick<RawRecord, 'date' | 'wpm'>[] = [];
+	let skipped = 0;
+	for (const rawLine of text.split(/\r?\n/)) {
+		const line = rawLine.trim();
+		if (line === '') continue;
+
+		const fields = (line.includes('\t') ? line.split('\t') : line.split(',')).map((field) =>
+			field.trim(),
+		);
+		const [date, wpm] = fields;
+		const speed = Number(wpm);
+		if (fields.length !== 2 || !date || !PASTED_DATE.test(date) || !Number.isFinite(speed) || speed <= 0) {
+			skipped++;
+			continue;
+		}
+		rows.push({ date, wpm });
+	}
+	return { rows, skipped };
 }
 
 export function saveRecords(value: OwnRecords) {
