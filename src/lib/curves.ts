@@ -21,6 +21,8 @@ export interface Series {
 	fits: Fit[];
 	leastSquares: { a: number; b: number };
 	crossings: { between: [number, number]; atDays: number }[];
+	/** The raw (days, wpm) records the fit was drawn from, for an optional scatter overlay. */
+	points: { days: number; wpm: number }[];
 }
 
 export interface Curves {

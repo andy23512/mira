@@ -232,6 +232,9 @@ async function main() {
 			fits,
 			leastSquares: { a: round(ols.a), b: round(ols.b) },
 			crossings: findCrossings(fits, minDays, maxDays),
+			// The raw (days, wpm) observations behind the fit, for an optional scatter
+			// overlay — rounded, since the chart has no use for more precision than it shows.
+			points: points.map((p) => ({ days: p.days, wpm: round(p.wpm, 1) })),
 		};
 	});
 

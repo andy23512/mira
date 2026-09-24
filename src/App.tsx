@@ -14,6 +14,7 @@ const COMBINED = 'CC1 & CC2 & M4G';
 export function App() {
 	const [own, setOwn] = useState(loadRecords);
 	const [seriesName, setSeriesName] = useState(usableSeries[0]?.name ?? '');
+	const [showScatter, setShowScatter] = useState(false);
 
 	useEffect(() => saveRecords(own), [own]);
 
@@ -52,6 +53,14 @@ export function App() {
 					Days {series.daysRange[0]}–{series.daysRange[1]} were fitted; no band is drawn past
 					them.
 				</p>
+				<label className="field field-checkbox">
+					<input
+						type="checkbox"
+						checked={showScatter}
+						onChange={(event) => setShowScatter(event.target.checked)}
+					/>
+					<span>Show all {series.n.toLocaleString()} records</span>
+				</label>
 			</div>
 
 			{latest && !placed && (
@@ -86,7 +95,7 @@ export function App() {
 
 			<div className="card">
 				<h2>{series.name} learning curve percentiles</h2>
-				<CurveChart series={series} points={points} />
+				<CurveChart series={series} points={points} records={showScatter ? series.points : []} />
 				<div className="legend">
 					<span className="legend-item">
 						<span className="swatch" style={{ background: 'var(--band-outer)' }} />
@@ -100,6 +109,12 @@ export function App() {
 						<span className="swatch line" style={{ background: 'var(--band-median)' }} />
 						Median (50th)
 					</span>
+					{showScatter && (
+						<span className="legend-item">
+							<span className="swatch dot" style={{ background: 'var(--text-muted)' }} />
+							Every record
+						</span>
+					)}
 					{points.length > 0 && (
 						<span className="legend-item">
 							<span className="swatch line" style={{ background: 'var(--accent)' }} />

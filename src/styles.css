@@ -183,6 +183,47 @@ a {
 	color: var(--text-secondary);
 }
 
+/* A checkbox field reads left-to-right, box then label, sat on the row's baseline. */
+.field-checkbox {
+	flex-direction: row;
+	align-items: center;
+	gap: 8px;
+	align-self: center;
+}
+
+.field-checkbox > span {
+	font-size: 0.85rem;
+	color: var(--text-primary);
+}
+
+input[type='checkbox'] {
+	appearance: none;
+	background: var(--surface-1);
+	border: 1px solid var(--border);
+	border-radius: 4px;
+	width: 16px;
+	height: 16px;
+	min-height: 0;
+	padding: 0;
+	display: grid;
+	place-content: center;
+	cursor: pointer;
+}
+
+input[type='checkbox']::before {
+	content: '';
+	width: 9px;
+	height: 9px;
+	border-radius: 2px;
+	background: var(--band-swatch);
+	transform: scale(0);
+	transition: transform 0.1s ease-in-out;
+}
+
+input[type='checkbox']:checked::before {
+	transform: scale(1);
+}
+
 label,
 button,
 input,
@@ -283,6 +324,13 @@ button.link {
 .swatch.line {
 	height: 3px;
 	border-radius: 2px;
+}
+
+.swatch.dot {
+	width: 8px;
+	height: 8px;
+	border-radius: 50%;
+	opacity: 0.6;
 }
 
 .note {

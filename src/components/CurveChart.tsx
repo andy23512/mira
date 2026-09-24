@@ -17,6 +17,8 @@ const HEIGHT = 420;
 interface Props {
 	series: Series;
 	points: OwnPoint[];
+	/** The series' raw (days, wpm) records, drawn as a scatter when non-empty. */
+	records?: { days: number; wpm: number }[];
 }
 
 /** Tracks the container's width so the plot fills the card at any size. */
@@ -36,7 +38,7 @@ function useWidth(ref: React.RefObject<HTMLDivElement | null>) {
 
 const fmt = (value: number) => value.toFixed(1);
 
-export function CurveChart({ series, points }: Props) {
+export function CurveChart({ series, points, records = [] }: Props) {
 	const host = useRef<HTMLDivElement>(null);
 	const width = useWidth(host);
 	const tokens = useChartTokens();
@@ -201,6 +203,20 @@ export function CurveChart({ series, points }: Props) {
 				Plot.areaY(samples, { x: 'days', y1: 'p10', y2: 'p90', fill: tokens.bandOuter }),
 				Plot.areaY(samples, { x: 'days', y1: 'p25', y2: 'p75', fill: tokens.bandInner }),
 				Plot.line(samples, { x: 'days', y: 'p50', stroke: tokens.bandMedian, strokeWidth: 2 }),
+				// The bands are a fitted summary; the dots underneath are what they were
+				// fitted to, so a reader can see where the evidence is thick or thin.
+				...(records.length > 0
+					? [
+							Plot.dot(records, {
+								x: 'days',
+								y: 'wpm',
+								r: 1.75,
+								fill: tokens.textMuted,
+								fillOpacity: 0.35,
+								stroke: null,
+							}),
+						]
+					: []),
 				...(series.denseTo < maxDays * 0.95
 					? [
 							Plot.ruleX([series.denseTo], {
@@ -249,11 +265,14 @@ export function CurveChart({ series, points }: Props) {
 			'aria-label',
 			`Percentile learning curves for ${series.name}: words per minute against days of practice, ` +
 				`from the 10th to the 90th percentile. The same values are in the table below. ` +
-				`Dashed reference lines mark notable typing speeds, explained below the chart.`,
+				`Dashed reference lines mark notable typing speeds, explained below the chart.` +
+				(records.length > 0
+					? ` The underlying ${records.length.toLocaleString()} records are also plotted as dots.`
+					: ''),
 		);
 		element.replaceChildren(plot);
 		return () => plot.remove();
-	}, [series, points, width, tokens]);
+	}, [series, points, records, width, tokens]);
 
 	return <div className="plot" ref={host} />;
 }
