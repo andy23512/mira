@@ -1,5 +1,5 @@
 {
-	"generatedAt": "2026-10-19T12:36:08.236Z",
+	"generatedAt": "2026-10-26T12:31:30.380Z",
 	"source": "data/raw/Processed Data.csv",
 	"model": "wpm = a * days^b, fitted per quantile by minimising pinball loss on log(wpm)",
 	"note": "One record = one observation; the spreadsheet holds no user identity, so these describe the distribution of records, not of people.",
@@ -6554,7 +6554,7 @@
 		},
 		{
 			"name": "CC2",
-			"n": 696,
+			"n": 702,
 			"sufficient": true,
 			"anchored": true,
 			"usable": true,
@@ -6562,7 +6562,7 @@
 				1,
 				547
 			],
-			"denseTo": 271,
+			"denseTo": 300,
 			"wpmRange": [
 				3,
 				307
@@ -6570,38 +6570,38 @@
 			"fits": [
 				{
 					"tau": 0.1,
-					"a": 8.530667,
-					"b": 0.303891,
-					"pinballLoss": 0.081254
+					"a": 8.736702,
+					"b": 0.288886,
+					"pinballLoss": 0.083204
 				},
 				{
 					"tau": 0.25,
-					"a": 9.72179,
-					"b": 0.359117,
-					"pinballLoss": 0.131576
+					"a": 9.817765,
+					"b": 0.352303,
+					"pinballLoss": 0.13581
 				},
 				{
 					"tau": 0.5,
-					"a": 12.851902,
-					"b": 0.330632,
-					"pinballLoss": 0.158179
+					"a": 12.969403,
+					"b": 0.328344,
+					"pinballLoss": 0.1609
 				},
 				{
 					"tau": 0.75,
-					"a": 17.663569,
-					"b": 0.296933,
-					"pinballLoss": 0.139964
+					"a": 18,
+					"b": 0.288318,
+					"pinballLoss": 0.141004
 				},
 				{
 					"tau": 0.9,
-					"a": 19.409538,
-					"b": 0.396348,
-					"pinballLoss": 0.090218
+					"a": 19.493606,
+					"b": 0.392818,
+					"pinballLoss": 0.090951
 				}
 			],
 			"leastSquares": {
-				"a": 12.767788,
-				"b": 0.340478
+				"a": 13.088267,
+				"b": 0.329711
 			},
 			"crossings": [],
 			"points": [
@@ -8800,6 +8800,30 @@
 				{
 					"days": 458,
 					"wpm": 35
+				},
+				{
+					"days": 459,
+					"wpm": 35
+				},
+				{
+					"days": 460,
+					"wpm": 35
+				},
+				{
+					"days": 461,
+					"wpm": 39
+				},
+				{
+					"days": 462,
+					"wpm": 43
+				},
+				{
+					"days": 463,
+					"wpm": 35
+				},
+				{
+					"days": 465,
+					"wpm": 39
 				},
 				{
 					"days": 1,
@@ -11620,7 +11644,7 @@
 		},
 		{
 			"name": "CC1 & CC2 & M4G",
-			"n": 2719,
+			"n": 2725,
 			"sufficient": true,
 			"anchored": true,
 			"usable": true,
@@ -11628,7 +11652,7 @@
 				1,
 				1215
 			],
-			"denseTo": 410,
+			"denseTo": 430,
 			"wpmRange": [
 				2,
 				307
@@ -11636,38 +11660,38 @@
 			"fits": [
 				{
 					"tau": 0.1,
-					"a": 5.110591,
-					"b": 0.408217,
-					"pinballLoss": 0.093862
+					"a": 5.347163,
+					"b": 0.390853,
+					"pinballLoss": 0.094579
 				},
 				{
 					"tau": 0.25,
-					"a": 7.822061,
-					"b": 0.389545,
-					"pinballLoss": 0.152467
+					"a": 7.830795,
+					"b": 0.388529,
+					"pinballLoss": 0.153483
 				},
 				{
 					"tau": 0.5,
-					"a": 10.576352,
-					"b": 0.37681,
-					"pinballLoss": 0.176859
+					"a": 10.582777,
+					"b": 0.376257,
+					"pinballLoss": 0.177618
 				},
 				{
 					"tau": 0.75,
-					"a": 13.365999,
-					"b": 0.380669,
-					"pinballLoss": 0.141009
+					"a": 13.378235,
+					"b": 0.380359,
+					"pinballLoss": 0.141415
 				},
 				{
 					"tau": 0.9,
-					"a": 17.826129,
-					"b": 0.382644,
-					"pinballLoss": 0.083188
+					"a": 17.946129,
+					"b": 0.381,
+					"pinballLoss": 0.083357
 				}
 			],
 			"leastSquares": {
-				"a": 10.094811,
-				"b": 0.384146
+				"a": 10.149677,
+				"b": 0.381827
 			},
 			"crossings": [],
 			"points": [
@@ -20350,6 +20374,30 @@
 				{
 					"days": 458,
 					"wpm": 35
+				},
+				{
+					"days": 459,
+					"wpm": 35
+				},
+				{
+					"days": 460,
+					"wpm": 35
+				},
+				{
+					"days": 461,
+					"wpm": 39
+				},
+				{
+					"days": 462,
+					"wpm": 43
+				},
+				{
+					"days": 463,
+					"wpm": 35
+				},
+				{
+					"days": 465,
+					"wpm": 39
 				},
 				{
 					"days": 1,
