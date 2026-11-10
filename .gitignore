@@ -10,3 +10,9 @@ dist
 .env
 .env.*
 !.env.example
+
+# The project uses npm (package-lock.json); CI runs `npm ci`.
+# Ignore leftovers from running Yarn locally so they are not committed by accident.
+yarn.lock
+.yarn/
+.pnp.*
