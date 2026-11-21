@@ -75,9 +75,15 @@ export function loadRecords(): OwnRecords {
 
 const PASTED_DATE = /^\d{4}-\d{2}-\d{2}$/;
 
+/** True when `YYYY-MM-DD` is a real calendar day (rejects 2024-13-45 and 2023-02-30). */
+function isRealDate(date: string) {
+	const at = new Date(`${date}T00:00:00Z`);
+	return Number.isFinite(at.getTime()) && at.toISOString().slice(0, 10) === date;
+}
+
 /**
  * Parses rows pasted from another tool — one `date,wpm` (or tab-separated) pair per
- * line. A line is skipped, not guessed at, unless its date is already `YYYY-MM-DD`
+ * line. A line is skipped, not guessed at, unless its date is already a real `YYYY-MM-DD`
  * (what the date inputs produce) and its wpm is a positive number.
  */
 export function parsePastedRows(text: string) {
@@ -92,7 +98,7 @@ export function parsePastedRows(text: string) {
 		);
 		const [date, wpm] = fields;
 		const speed = Number(wpm);
-		if (fields.length !== 2 || !date || !PASTED_DATE.test(date) || !Number.isFinite(speed) || speed <= 0) {
+		if (fields.length !== 2 || !date || !PASTED_DATE.test(date) || !isRealDate(date) || !Number.isFinite(speed) || speed <= 0) {
 			skipped++;
 			continue;
 		}

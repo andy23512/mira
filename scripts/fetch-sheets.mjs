@@ -48,14 +48,20 @@ export function parseArgs(argv) {
 		const arg = argv[i];
 		if (arg === '--list') args.list = true;
 		else if (arg === '--all') args.all = true;
-		else if (arg === '--only') args.only = splitNames(argv[++i]);
-		else if (arg.startsWith('--only=')) args.only = splitNames(arg.slice(7));
+		else if (arg === '--only') args.only = requireNames(splitNames(argv[++i]));
+		else if (arg.startsWith('--only=')) args.only = requireNames(splitNames(arg.slice(7)));
 		else if (arg === '--out') args.out = argv[++i];
 		else if (arg.startsWith('--out=')) args.out = arg.slice(6);
 		else throw new Error(`Unknown argument: ${arg}`);
 	}
 	return args;
 }
+
+/** `--only` with no names would select nothing and silently download nothing. */
+const requireNames = (names) => {
+	if (names.length === 0) throw new Error('--only needs at least one sheet name.');
+	return names;
+};
 
 export const splitNames = (value) =>
 	String(value ?? '')

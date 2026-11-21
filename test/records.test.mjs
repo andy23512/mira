@@ -189,11 +189,21 @@ describe('parsePastedRows', () => {
 				'2024-01-02', // one field
 				'2024-01-02,30,extra', // three fields
 				',30', // no date
+				'2024-13-45,30', // not a calendar day
+				'2023-02-30,30', // February has no 30th
+				'2023-02-29,30', // not a leap year
 				'2024-01-02,30', // the only good one
 			].join('\n'),
 		);
 		assert.deepEqual(rows, [{ date: '2024-01-02', wpm: '30' }]);
-		assert.equal(skipped, 9);
+		assert.equal(skipped, 12);
+	});
+
+	it('accepts real edge days such as a leap day', () => {
+		assert.deepEqual(parsePastedRows('2024-02-29,30\n2023-12-31,31').rows, [
+			{ date: '2024-02-29', wpm: '30' },
+			{ date: '2023-12-31', wpm: '31' },
+		]);
 	});
 
 	it('prefers tabs when a line has both', () => {

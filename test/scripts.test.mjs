@@ -318,8 +318,11 @@ describe('fetch-sheets: small helpers', () => {
 		assert.throws(() => fetchSheets.parseArgs(['--what']), /Unknown argument: --what/);
 	});
 
-	it('parseArgs: --only with no names ends up as an empty list, not as "everything" (current behaviour)', () => {
-		assert.deepEqual(fetchSheets.parseArgs(['--only']).only, []);
+	it('parseArgs: --only with no names is an error, not an empty selection', () => {
+		const message = /--only needs at least one sheet name/;
+		assert.throws(() => fetchSheets.parseArgs(['--only']), message);
+		assert.throws(() => fetchSheets.parseArgs(['--only=']), message);
+		assert.throws(() => fetchSheets.parseArgs(['--only', ' , ']), message);
 	});
 
 	it('decodeName reads the escapes the published page uses', () => {
