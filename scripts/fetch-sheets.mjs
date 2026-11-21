@@ -42,7 +42,7 @@ const TIMEOUT_MS = 30_000;
 
 const get = (url) => fetch(url, { redirect: 'follow', signal: AbortSignal.timeout(TIMEOUT_MS) });
 
-function parseArgs(argv) {
+export function parseArgs(argv) {
 	const args = { list: false, all: false, only: null, out: 'data/raw' };
 	for (let i = 0; i < argv.length; i++) {
 		const arg = argv[i];
@@ -57,7 +57,7 @@ function parseArgs(argv) {
 	return args;
 }
 
-const splitNames = (value) =>
+export const splitNames = (value) =>
 	String(value ?? '')
 		.split(',')
 		.map((name) => name.trim())
@@ -67,7 +67,7 @@ const splitNames = (value) =>
  * Google serves a sign-in page instead of an error status when something is not
  * published, so a 200 alone does not mean we got a sheet.
  */
-async function fetchText(url, what) {
+export async function fetchText(url, what) {
 	const response = await get(url);
 	const body = await response.text();
 	if (!response.ok) {
@@ -90,7 +90,7 @@ async function fetchText(url, what) {
  * `items.push({name: "...", ..., gid: "..."})` per sheet. That list is the only
  * place the published sheet names and gids appear together.
  */
-async function discoverSheets() {
+export async function discoverSheets() {
 	const response = await get(`${BASE}/pubhtml`);
 	if (!response.ok) {
 		throw new Error(
@@ -109,16 +109,16 @@ async function discoverSheets() {
 }
 
 /** Sheet names arrive JS-escaped (\x22, 學, \/ …) inside the inline script. */
-const decodeName = (raw) =>
+export const decodeName = (raw) =>
 	raw.replace(/\\x([\da-f]{2})|\\u([\da-f]{4})|\\(.)/gi, (_, hex2, hex4, char) =>
 		hex2 || hex4 ? String.fromCharCode(parseInt(hex2 || hex4, 16)) : char,
 	);
 
 /** Keeps CJK names readable; only strips what a filesystem or git would object to. */
-const toFileName = (name) => `${name.replace(/[\\/:*?"<>|]/g, '-').trim()}.csv`;
+export const toFileName = (name) => `${name.replace(/[\\/:*?"<>|]/g, '-').trim()}.csv`;
 
 /** Rows x columns of the downloaded CSV, so a truncated download is visible. */
-function shapeOf(csv) {
+export function shapeOf(csv) {
 	const rows = csv.replace(/\r\n/g, '\n').replace(/\n$/, '').split('\n');
 	return { rows: rows.length, columns: rows[0] ? rows[0].split(',').length : 0 };
 }
@@ -128,7 +128,7 @@ function shapeOf(csv) {
  * sheets this run skipped are carried over rather than dropped, but only while
  * their file is still there — deleting a CSV takes it out of the manifest too.
  */
-async function writeManifest(outDir, downloaded) {
+export async function writeManifest(outDir, downloaded) {
 	const path = join(outDir, 'manifest.json');
 	let previous = [];
 	try {
@@ -196,7 +196,10 @@ async function main() {
 	console.log(`\n${manifest.length} sheet(s) written to ${args.out}/`);
 }
 
-main().catch((error) => {
-	console.error(`\n${error.message}`);
-	process.exit(1);
-});
+// Importing this file (the tests do) must not start a download.
+if (process.argv[1] && resolve(process.argv[1]) === fileURLToPath(import.meta.url)) {
+	main().catch((error) => {
+		console.error(`\n${error.message}`);
+		process.exit(1);
+	});
+}

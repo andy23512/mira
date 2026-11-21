@@ -1,4 +1,4 @@
-import curvesJson from '../../data/curves.json';
+import curvesJson from '../../data/curves.json' with { type: 'json' };
 
 export interface Fit {
 	/** The quantile this curve was fitted to, e.g. 0.5 for the median. */
@@ -129,7 +129,7 @@ export function placePoint(series: Series, days: number, wpm: number): Placement
 /** How many days of practice this series' median needs to reach a target speed. */
 export function daysToReach(series: Series, tau: number, wpm: number) {
 	const fit = fitAt(series, tau);
-	if (!fit) return null;
+	if (!fit || !(wpm > 0)) return null;
 	const days = (wpm / fit.a) ** (1 / fit.b);
 	return Number.isFinite(days) && days > 0 ? days : null;
 }

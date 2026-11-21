@@ -27,10 +27,10 @@ import { fileURLToPath } from 'node:url';
 
 const ROOT = resolve(dirname(fileURLToPath(import.meta.url)), '..');
 
-const QUANTILES = [0.1, 0.25, 0.5, 0.75, 0.9];
+export const QUANTILES = [0.1, 0.25, 0.5, 0.75, 0.9];
 
 /** Below this, a fit is reported but marked unfit to draw a band from. */
-const MIN_POINTS = 50;
+export const MIN_POINTS = 50;
 
 /**
  * A series whose earliest record is already weeks in says nothing about where the
@@ -38,12 +38,12 @@ const MIN_POINTS = 50;
  * extrapolates back to day 1 as nonsense. The transfer series are the case in
  * point: their day counts are measured from the *previous* device's start date.
  */
-const MAX_START_DAY = 14;
+export const MAX_START_DAY = 14;
 
 /** Exponent bracket for the outer search; real learning curves sit near 0.1-0.5. */
 const B_BRACKET = [-5, 5];
 
-function parseArgs(argv) {
+export function parseArgs(argv) {
 	const args = { in: 'data/raw/Processed Data.csv', out: 'data/curves.json' };
 	for (let i = 0; i < argv.length; i++) {
 		const arg = argv[i];
@@ -57,7 +57,7 @@ function parseArgs(argv) {
 }
 
 /** Minimal RFC 4180 reader — enough for the sheet exports, quoted fields included. */
-function parseCsv(text) {
+export function parseCsv(text) {
 	const rows = [[]];
 	let field = '';
 	let quoted = false;
@@ -89,7 +89,7 @@ function parseCsv(text) {
  * the series name on row 1 above the left column of each pair. Pairs have
  * different lengths, so blanks are holes rather than an end-of-data marker.
  */
-function readSeries(csv) {
+export function readSeries(csv) {
 	const rows = parseCsv(csv);
 	const [names, , ...body] = rows;
 	const series = [];
@@ -110,10 +110,10 @@ function readSeries(csv) {
 	return series;
 }
 
-const pinball = (residual, tau) => (residual >= 0 ? tau * residual : (tau - 1) * residual);
+export const pinball = (residual, tau) => (residual >= 0 ? tau * residual : (tau - 1) * residual);
 
 /** The tau-quantile of a sample, by the "lower" convention used for pinball loss. */
-function quantileOf(sorted, tau) {
+export function quantileOf(sorted, tau) {
 	const index = Math.min(sorted.length - 1, Math.max(0, Math.ceil(tau * sorted.length) - 1));
 	return sorted[index];
 }
@@ -124,7 +124,7 @@ function quantileOf(sorted, tau) {
  * slope needs searching. That leaves a 1-D convex problem, handled by ternary
  * search — no gradients, no local minima.
  */
-function fitQuantile(x, y, tau) {
+export function fitQuantile(x, y, tau) {
 	const lossAt = (b) => {
 		const residuals = new Float64Array(x.length);
 		for (let i = 0; i < x.length; i++) residuals[i] = y[i] - b * x[i];
@@ -149,7 +149,7 @@ function fitQuantile(x, y, tau) {
 }
 
 /** Ordinary least squares in the same log space, for comparison against the fits. */
-function fitLeastSquares(x, y) {
+export function fitLeastSquares(x, y) {
 	const n = x.length;
 	const meanX = x.reduce((sum, v) => sum + v, 0) / n;
 	const meanY = y.reduce((sum, v) => sum + v, 0) / n;
@@ -167,7 +167,7 @@ function fitLeastSquares(x, y) {
  * Separately fitted quantiles can cross, which would render as bands folding
  * through each other. Checked across the series' own day range.
  */
-function findCrossings(fits, minDays, maxDays, samples = 400) {
+export function findCrossings(fits, minDays, maxDays, samples = 400) {
 	const crossings = [];
 	const step = (Math.log(maxDays) - Math.log(minDays)) / (samples - 1);
 	for (let i = 0; i < samples; i++) {
@@ -184,7 +184,7 @@ function findCrossings(fits, minDays, maxDays, samples = 400) {
 	return crossings;
 }
 
-const round = (value, digits = 6) => Number(value.toFixed(digits));
+export const round = (value, digits = 6) => Number(value.toFixed(digits));
 
 /**
  * The day by which `share` of the records have been logged. The tail of a series
@@ -192,7 +192,7 @@ const round = (value, digits = 6) => Number(value.toFixed(digits));
  * as solid as one drawn over eight hundred, so the chart needs to say where the
  * evidence runs out.
  */
-function dayAtShare(days, share) {
+export function dayAtShare(days, share) {
 	const sorted = [...days].sort((left, right) => left - right);
 	return sorted[Math.min(sorted.length - 1, Math.ceil(share * sorted.length) - 1)];
 }
@@ -268,7 +268,10 @@ async function main() {
 	console.log(`\nWritten to ${args.out}`);
 }
 
-main().catch((error) => {
-	console.error(`\n${error.message}`);
-	process.exit(1);
-});
+// Importing this file (the tests do) must not start a run.
+if (process.argv[1] && resolve(process.argv[1]) === fileURLToPath(import.meta.url)) {
+	main().catch((error) => {
+		console.error(`\n${error.message}`);
+		process.exit(1);
+	});
+}

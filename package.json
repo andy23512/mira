@@ -8,6 +8,7 @@
 		"dev": "vite",
 		"build": "tsc -b && vite build",
 		"lint": "oxlint",
+		"test": "node --test \"test/**/*.test.mjs\"",
 		"preview": "vite preview",
 		"fetch:data": "node scripts/fetch-sheets.mjs",
 		"build:curves": "node scripts/build-curves.mjs",
